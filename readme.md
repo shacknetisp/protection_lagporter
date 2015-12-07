@@ -1,3 +1,4 @@
+### Protection Lagporter
 This mod will teleport players back to where they started digging if they try to dig through protection.
 
 ### Known Problems
