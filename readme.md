@@ -34,4 +34,4 @@ A table of players being teleported is available with `protection_lagporter.glit
     end
     
 #### Node Definitions
-In node definitions you should use the digger argument, `minetest.is_protected(pos, name, digging)`, if you test for protection in `on_dig`. This is only needed if the node is walkable.
+In node definitions you should use the digger argument, `minetest.is_protected(pos, name, true)`, if you test for protection in `on_dig`. This is only needed if the node is walkable.
