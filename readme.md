@@ -8,12 +8,12 @@ This mod will teleport players back to where they started digging if they try to
 
 ### minetest.is_protected
 
-This mod overrides `minetest.node_dig` and calls a third argument in `minetest.is_protected`: `digger`
+This mod overrides `minetest.node_dig` and calls a third argument in `minetest.is_protected`: `digging`
 This argument can be safely ignored, so existing mods aren't broken by this.
 
 ### Usage in other mods
 
-In a protection mod change the definition of minetest.is_protected and call `protection_lagporter.check(pos, name)` to support the digger option.
+In a protection mod change the definition of minetest.is_protected and call `protection_lagporter.check(pos, name)` to support the digging option.
 
 A table of players being teleported is available with `protection_lagporter.glitching`, player names will either be `nil` if not teleporting or `true` if they are.
 #### TenPlus1's Protection Redo
@@ -34,4 +34,4 @@ A table of players being teleported is available with `protection_lagporter.glit
     end
     
 #### Node Definitions
-In node definitions you should use the digger argument, `minetest.is_protected(pos, name, digger)`, if you test for protection in `on_dig`. This is only needed if the node is walkable.
+In node definitions you should use the digger argument, `minetest.is_protected(pos, name, true)`, if you test for protection in `on_dig`. This is only needed if the node is walkable.
