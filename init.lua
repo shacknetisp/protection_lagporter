@@ -1,7 +1,8 @@
 --Protection Lag Teleporter
 
 local check_speed = 0.2 --Teleport this quickly.
-local check_time = 3 --Test this many times before finishing.
+local check_time = 6 --Test this many times before finishing.
+local message = true --Send a message when done teleporting. This is useful with high check_time values.
 
 protection_lagporter = {}
 protection_lagporter.glitching = {} --Check if a player is being teleported with: if protection_lagporter.glitching[playername] then ... end
@@ -26,6 +27,9 @@ local function check_togo(name)
                 togo[name] = nil
                 times[name] = nil
                 protection_lagporter.glitching[name] = nil
+                if message then
+                    minetest.chat_send_player(name, "You may now move.")
+                end
                 return
             end
             --Teleport and retry.
