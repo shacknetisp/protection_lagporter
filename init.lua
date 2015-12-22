@@ -1,7 +1,7 @@
 --Protection Lag Teleporter
 
-local check_speed = 0.2 --Teleport this quickly.
-local check_time = 4 --Test this many times before finishing.
+local check_speed = 0.05 --Teleport this quickly.
+local check_time = 8 --Test this many times before finishing.
 local message = true --Send a message when done teleporting. This is useful with high check_time values.
 
 protection_lagporter = {}
@@ -21,14 +21,13 @@ local function check_togo(name)
             --Is the player where he should be?
             if math.abs(p1.x - p2.x) <= 0.1 and math.abs(p1.y - p2.y) <= ytest and math.abs(p1.z - p2.z) <= 0.1 then
                 times[name] = times[name] - 1
-                player:set_physics_override({gravity=(check_time - times[name]) / check_time})
             end
             --Yes, he is.
             if times[name] <= 0 then
                 togo[name] = nil
                 times[name] = nil
                 protection_lagporter.glitching[name] = nil
-                player:set_physics_override({speed=1.0, jump=1.0})
+                player:set_physics_override({speed=1.0})
                 if message then
                     minetest.chat_send_player(name, "You may now move.")
                 end
@@ -52,7 +51,7 @@ function protection_lagporter.check(pos, digger)
         if not times[digger] then
             --Begin checks.
             minetest.after(check_speed, check_togo, digger)
-            player:set_physics_override({speed=0, jump=0})
+            player:set_physics_override({speed=0.1})
         end
         times[digger] = check_time
     end
