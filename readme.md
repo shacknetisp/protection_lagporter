@@ -33,5 +33,30 @@ A table of players being teleported is available with `protection_lagporter.glit
     return old_is_protected(pos, name, digging)
     end
     
+## Fast Movement Mods
+These mods must be changed to detect `protection_lagporter.glitching`
+
+### Sprint
+```
+sprint.speed = {}
+function setSprinting(playerName, sprinting) --Sets the state of a player (0=stopped/moving, 1=sprinting)
+	local player = minetest.get_player_by_name(playerName)
+	if players[playerName] then
+        if protection_lagporter.glitching[playerName] then
+            sprint.speed[playerName] = 0.1
+        end
+		players[playerName]["sprinting"] = sprinting
+		if sprinting == true then
+			player:set_physics_override({speed=SPRINT_SPEED * (sprint.speed[playerName] or 1),jump=SPRINT_JUMP})
+		elseif sprinting == false then
+			player:set_physics_override({speed=1.0 * (sprint.speed[playerName] or 1), jump=1.0})
+		end
+		return true
+	end
+	return false
+end
+```
+
+    
 #### Node Definitions
 In node definitions you should use the digger argument, `minetest.is_protected(pos, name, true)`, if you test for protection in `on_dig`. This is only needed if the node is walkable.
