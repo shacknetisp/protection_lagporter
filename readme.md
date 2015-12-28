@@ -17,13 +17,44 @@ In a protection mod change the definition of minetest.is_protected and call `pro
 
 A table of players being teleported is available with `protection_lagporter.glitching`, player names will either be `nil` if not teleporting or `true` if they are.
 #### TenPlus1's Protection Redo
-    function minetest.is_protected(pos, digger, digging)
-    	if not protector.can_dig(protector.radius, pos, digger, false, 1) then
-    		if digging then protection_lagporter.check(pos, digger) end
-    		return true
-    	end
-    	return protector.old_is_protected(pos, digger, digging)
-    end
+    function minetest.is_protected(pos, digger)
+
+	if not protector.can_dig(protector.radius, pos, digger, false, 1) then
+		if digging then protection_lagporter.check(pos, name) end
+
+		local player = minetest.get_player_by_name(digger)
+
+		if protector.hurt > 0
+		and player then
+			player:set_hp(player:get_hp() - protector.hurt)
+		end
+
+		if protector.drop == true
+		and player then
+			-- drop tool/item if protection violated
+			local tool = player:get_wielded_item()
+			--local wear = tool:get_wear()
+			local num = player:get_wield_index()
+			local player_inv = player:get_inventory()
+			local inv = player_inv:get_stack("main", num)
+			local sta = inv:take_item(inv:get_count())
+			local obj = minetest.add_item(player:getpos(), sta)
+
+			if obj then
+				obj:setvelocity({x = 0, y = 5, z = 0})
+				player:set_wielded_item(nil)
+				minetest.after(0.2, function()
+					player_inv:set_stack("main", num, nil)
+				end)
+			end
+		end
+
+		return true
+	end
+
+	return protector.old_is_protected(pos, digger)
+
+	end
 #### ShadowNinja's Areas
     function minetest.is_protected(pos, name, digging)
      if not areas:canInteract(pos, name) then
