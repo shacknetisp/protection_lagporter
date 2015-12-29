@@ -19,7 +19,7 @@ A table of players being teleported is available with `protection_lagporter.glit
 
 
 ## Protection Mods
-In protection mods simply add `diggging` to the definition of `minetest.is_protected`: `minetest.isprotected(..., digging)` and add this line just before before returning `true`: `if digging then protection_lagporter.check(pos, name) end` (replace pos and name with the proper variables).
+In protection mods simply add `digging` to the definition of `minetest.is_protected`: `minetest.isprotected(..., digging)` and add this line just before before returning `true`: `if digging then protection_lagporter.check(pos, name) end` (replace pos and name with the proper variables).
     
 ## Fast Movement Mods
 These mods must be changed to detect `protection_lagporter.glitching` and set the speed to 0.1 if it is `true` for `protection_lagporter.glitching[playerName]`
